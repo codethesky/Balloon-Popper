@@ -6,6 +6,7 @@ let scores = document.querySelectorAll('.score');
 let num = 0;
 let total = 100;
 let currentBallon = 0;
+let currentPlane = 0;
 let gameOver = false;
 let totalShadow = document.querySelector('.total-shadow');
 let startBtn = document.querySelector('.start-game-button');
@@ -66,7 +67,7 @@ function startGame(){
 	let loop = setInterval(function(){
 		timeout = Math.floor(Math.random() * 600 - 100);
 		if(!gameOver && num !== total){
-			createBalloon();
+            createBalloon();
 		} else if(num !== total) {
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
