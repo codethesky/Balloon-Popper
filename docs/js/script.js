@@ -6,6 +6,7 @@ let scores = document.querySelectorAll('.score');
 let num = 0;
 let total = 100;
 let currentBallon = 0;
+let currentPlane = 0;
 let gameOver = false;
 let totalShadow = document.querySelector('.total-shadow');
 let startBtn = document.querySelector('.start-game-button');
@@ -18,7 +19,7 @@ function createBalloon() {
 	rand = Math.floor(Math.random() * (windowWidth - 100));
 	div.style.left = rand + 'px';
 	div.dataset.number = currentBallon;
-	currentBallon++;
+    currentBallon++;
 
 	body.appendChild(div);
 	animateBalloon(div);
@@ -40,11 +41,48 @@ function animateBalloon(elem){
 	}
 }
 
+/* So far unable to create the plane in the game
+function createPlane() {
+    let div = document.createElement('div');
+    let rand = Math.floor(Math.random() * ((windowHeight / 2) - 100));
+
+    div.className = 'plane plane-blue';
+    div.style.bottom = (rand * 2) + 'px'; 
+    div.dataset.number = currentPlane;
+    currentPlane++;
+
+    body.appendChild(div);
+    animatePlane(div);
+
+}
+
+function animatePlane(elem) {
+    let pos = 0;
+    let random = Math.floor(Math.random() * 6 - 3);
+    let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
+
+    function frame() {
+        if (pos >= (windowWidth + 200) && (document.querySelector('[data-number="' + elem.dataset.number + '"]') !== null)) {
+            clearInterval(interval);
+        } else {
+            pos++;
+            elem.style.left = windowWidth - pos + 'px';
+        }
+    }
+}
+*/
+
+
 function deleteBalloon(elem){
 		elem.remove();
 		num++;
 		updateScore();
 		playBallSound();
+}
+
+// Add score functionality and sound here
+function deletePlane(elem) {
+    elem.remove();
 }
 
 function playBallSound(){
@@ -66,7 +104,8 @@ function startGame(){
 	let loop = setInterval(function(){
 		timeout = Math.floor(Math.random() * 600 - 100);
 		if(!gameOver && num !== total){
-			createBalloon();
+            createBalloon();
+            //createPlane();
 		} else if(num !== total) {
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
@@ -90,10 +129,13 @@ function restartGame(){
 	updateScore();
 }
 
+// Listener is for both balloons and plane objects
 document.addEventListener('click', function(event){
-	if(event.target.classList.contains('balloon')){
-		deleteBalloon(event.target);
-	}
+    if (event.target.classList.contains('balloon')) {
+        deleteBalloon(event.target);
+    } /* else if (event.target.classList.contains('plane')) {
+        deletePlane(event.target);
+    } */
 })
 
 document.querySelector('.restart').addEventListener('click', function(){
