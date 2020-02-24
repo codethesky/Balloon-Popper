@@ -9,6 +9,17 @@ h1 {
     color: blue;
 }
 
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    color: #ef9fad;
+}
+
 body{
 	overflow: hidden;
 	width: 100vw;
@@ -29,6 +40,17 @@ body{
 	background-repeat: no-repeat;
 }
 
+.plane{
+    width: 100px;
+    height: 200px;
+    top: 100vh;
+    position: absolute;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .balloon-red{
 	background-image: url(../images/balloon-red.png);
 }
@@ -45,7 +67,7 @@ body{
 	background-image: url(../images/balloon-green.png);
 }
 
-.plane{
+.plane-blue{
     background-image: url(../images/plane.png);
 }
 
