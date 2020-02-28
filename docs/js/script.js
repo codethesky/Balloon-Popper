@@ -147,7 +147,10 @@ document.querySelector('.restart').addEventListener('click', function(){
 });
 
 document.querySelector('.cencel').addEventListener('click', function(){
-	totalShadow.style.display = 'none';
+    totalShadow.style.display = 'none';
+    restartGame();
+    document.querySelector('.bg-music').pause();
+    document.querySelector('.start-game-window').style.display = 'flex';
 });
 
 startBtn.addEventListener('click', function() {
