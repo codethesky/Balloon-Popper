@@ -41,14 +41,10 @@ body{
 }
 
 .plane{
-    width: 100px;
-    height: 200px;
-    top: 100vh;
-    position: absolute;
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+	width: 482px;
+	height: 175px;
+	position: absolute; 
+	overflow: hidden;
 }
 
 .balloon-red{
@@ -68,7 +64,7 @@ body{
 }
 
 .plane-blue{
-    background-image: url(../images/plane.png);
+	background-image: url(../images/plane.png);
 }
 
 .total-shadow{
