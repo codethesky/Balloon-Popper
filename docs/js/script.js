@@ -41,14 +41,12 @@ function animateBalloon(elem){
 	}
 }
 
-/* So far unable to create the plane in the game
 function createPlane() {
     let div = document.createElement('div');
-    let rand = Math.floor(Math.random() * ((windowHeight / 2) - 100));
-
     div.className = 'plane plane-blue';
-    div.style.bottom = (rand * 2) + 'px'; 
-    div.dataset.number = currentPlane;
+	div.style.top = GetRandomNumber(0, 300) + 'px';
+	div.style.left = '-400px'
+    div.dataset.planeNumber = currentPlane;
     currentPlane++;
 
     body.appendChild(div);
@@ -57,21 +55,26 @@ function createPlane() {
 }
 
 function animatePlane(elem) {
-    let pos = 0;
-    let random = Math.floor(Math.random() * 6 - 3);
-    let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
-
+    let position = -400;
+    let interval = setInterval(frame, 10);
+	let rateOfSpeed = GetRandomNumber(1, 5);
     function frame() {
-        if (pos >= (windowWidth + 200) && (document.querySelector('[data-number="' + elem.dataset.number + '"]') !== null)) {
-            clearInterval(interval);
+        if (position >= (windowWidth + 200) && (document.querySelector('[data-planeNumberr="' + elem.dataset.planeNumber + '"]') !== null)) {
+			clearInterval(interval);
+		
         } else {
-            pos++;
-            elem.style.left = windowWidth - pos + 'px';
+            position += rateOfSpeed;
+            elem.style.left = position + 'px';
         }
     }
 }
-*/
 
+//Enter min and max numbers in range for possible random numbers, returns rounded random number
+function GetRandomNumber(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min; 
+}
 
 function deleteBalloon(elem){
 		elem.remove();
@@ -117,6 +120,19 @@ function startGame(){
 		}
 		
 	}, 800 + timeout);
+
+	let planeLoop = setInterval(function(){
+		timeout = Math.floor(Math.random() * 600 - 100);
+		if(!gameOver && num !== total){
+			createPlane();
+		} else if(num !== total) {
+			clearInterval(planeLoop);
+		} else {
+			clearInterval(planeLoop);
+		
+		}
+		
+	}, 10000 + timeout);
 }
 
 function restartGame(){
@@ -124,6 +140,12 @@ function restartGame(){
 	for(let i = 0; i < forRemoving.length; i++){
 		forRemoving[i].remove();
 	}
+
+	let forRemovingPlanes = document.querySelectorAll('.plane');
+	for(let i = 0; i < forRemovingPlanes.length; i++){
+		forRemovingPlanes[i].remove();
+	}
+
 	gameOver = false;
 	num = 0;
 	updateScore();
@@ -133,9 +155,9 @@ function restartGame(){
 document.addEventListener('click', function(event){
     if (event.target.classList.contains('balloon')) {
         deleteBalloon(event.target);
-    } /* else if (event.target.classList.contains('plane')) {
+    } else if (event.target.classList.contains('plane')) {
         deletePlane(event.target);
-    } */
+    } 
 })
 
 document.querySelector('.restart').addEventListener('click', function(){
