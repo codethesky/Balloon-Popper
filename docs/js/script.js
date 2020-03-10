@@ -59,7 +59,7 @@ function animatePlane(elem) {
     let interval = setInterval(frame, 10);
 	let rateOfSpeed = GetRandomNumber(1, 5);
     function frame() {
-        if (position >= (windowWidth + 200) && (document.querySelector('[data-planeNumberr="' + elem.dataset.planeNumber + '"]') !== null)) {
+        if (position >= (windowWidth + 600)) {
 			clearInterval(interval);
 		
         } else {
@@ -108,7 +108,6 @@ function startGame(){
 		timeout = Math.floor(Math.random() * 600 - 100);
 		if(!gameOver && num !== total){
             createBalloon();
-            //createPlane();
 		} else if(num !== total) {
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
@@ -155,9 +154,7 @@ function restartGame(){
 document.addEventListener('click', function(event){
     if (event.target.classList.contains('balloon')) {
         deleteBalloon(event.target);
-    } else if (event.target.classList.contains('plane')) {
-        deletePlane(event.target);
-    } 
+    }
 })
 
 document.querySelector('.restart').addEventListener('click', function(){
