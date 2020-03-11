@@ -34,21 +34,20 @@ body{
 	height: 200px;
 	top: 100vh;
 	position: absolute;
-
+	z-index: 1;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
 .plane{
-    width: 100px;
-    height: 200px;
-    top: 100vh;
+    width: 482px;
+    height: 175px;
     position: absolute;
-
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
+	z-index: 0;
 }
 
 .balloon-red{
@@ -68,7 +67,7 @@ body{
 }
 
 .plane-blue{
-    background-image: url(../images/plane.png);
+	background-image: url(../images/plane.png);
 }
 
 .total-shadow{
