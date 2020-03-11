@@ -11,8 +11,6 @@ let gameOver = false;
 let totalShadow = document.querySelector('.total-shadow');
 let startBtn = document.querySelector('.start-game-button');
 
-
-
 function createBalloon() {
 	let div = document.createElement('div');
 	let rand = Math.floor(Math.random()*colors.length);
@@ -43,13 +41,12 @@ function animateBalloon(elem){
 	}
 }
 
-
 function createPlane() {
     let div = document.createElement('div');
     div.className = 'plane plane-blue';
 	div.style.top = GetRandomNumber(0, 300) + 'px';
 	div.style.left = '-400px'
-    div.dataset.number = currentPlane;
+    div.dataset.planeNumber = currentPlane;
     currentPlane++;
 
     body.appendChild(div);
@@ -62,7 +59,7 @@ function animatePlane(elem) {
     let interval = setInterval(frame, 10);
 	let rateOfSpeed = GetRandomNumber(1, 5);
     function frame() {
-        if (position >= (windowWidth + 200) && (document.querySelector('[data-number="' + elem.dataset.number + '"]') !== null)) {
+        if (position >= (windowWidth + 600)) {
 			clearInterval(interval);
 		
         } else {
@@ -106,11 +103,11 @@ function updateScore(){
 function startGame(){
 	restartGame();
 	let timeout = 0;
-	
+
 	let loop = setInterval(function(){
 		timeout = Math.floor(Math.random() * 600 - 100);
 		if(!gameOver && num !== total){
-			createBalloon();
+            createBalloon();
 		} else if(num !== total) {
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
@@ -122,6 +119,7 @@ function startGame(){
 		}
 		
 	}, 800 + timeout);
+
 	let planeLoop = setInterval(function(){
 		timeout = Math.floor(Math.random() * 600 - 100);
 		if(!gameOver && num !== total){
@@ -134,21 +132,19 @@ function startGame(){
 		}
 		
 	}, 10000 + timeout);
-	
 }
-
-
 
 function restartGame(){
 	let forRemoving = document.querySelectorAll('.balloon');
 	for(let i = 0; i < forRemoving.length; i++){
 		forRemoving[i].remove();
 	}
+
 	let forRemovingPlanes = document.querySelectorAll('.plane');
 	for(let i = 0; i < forRemovingPlanes.length; i++){
 		forRemovingPlanes[i].remove();
 	}
-	
+
 	gameOver = false;
 	num = 0;
 	updateScore();
@@ -158,9 +154,7 @@ function restartGame(){
 document.addEventListener('click', function(event){
     if (event.target.classList.contains('balloon')) {
         deleteBalloon(event.target);
-    } else if (event.target.classList.contains('plane')) {
-        deletePlane(event.target);
-    } 
+    }
 })
 
 document.querySelector('.restart').addEventListener('click', function(){
