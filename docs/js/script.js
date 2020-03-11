@@ -1,3 +1,11 @@
+/*
+To do:
+-Create plane in the game 
+	**function createPlane()
+	**function animatePlane()
+*/
+
+
 let colors = ['yellow', 'red', 'blue', 'violet', 'green'];
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
