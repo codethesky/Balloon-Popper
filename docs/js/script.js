@@ -19,6 +19,7 @@ let num = 0;
 let total = 100;
 let currentBallon = 0;
 let currentPlane = 0;
+let planeExists = false;
 let gameOver = false;
 let totalShadow = document.querySelector('.total-shadow');
 let startBtn = document.querySelector('.start-game-button');
@@ -56,39 +57,40 @@ function animateBalloon(elem){
 }
 
 function createPlane() {
-	//create div container for plane objects
-    let div = document.createElement('div');
-    div.className = 'plane';
-	div.style.top = GetRandomNumber(0, 250) + 'px';
-	div.style.left = '-1200px'
-	div.style.width = 'fit-content'
-	div.style.height = 'fit-content'
-	div.style.position = 'absolute'
-    div.dataset.planeNumber = currentPlane;
-	currentPlane++;
+	if (!planeExists) {
+		//create div container for plane objects
+		let div = document.createElement('div');
+		div.className = 'plane';
+		div.style.top = GetRandomNumber(0, 250) + 'px';
+		div.style.left = '-1200px'
+		div.style.width = 'fit-content'
+		div.style.height = 'fit-content'
+		div.style.position = 'absolute'
+		planeExists = true;
+		
+		//create plane image and set styling
+		let plane = document.createElement('img');
+		plane.src = 'images/plane_blue_banner.png'
+		plane.style.float = 'right'
+		plane.style.height = '175px';
+		plane.style.left = '-1200px';
+		plane.style.position = 'absolute'
+		
+		//create logo image and set styling
+		let logo = document.createElement('img');
+		selectedLogo = logos[GetRandomNumber(0, (logos.length - 1))];
+		logo.src = selectedLogo;
+		logo.style.position = 'absolute'
+		logo.style.left = '-1065px'
+		logo.style.top = '25px'
 
-	//create plane image and set styling
-	let plane = document.createElement('img');
-	plane.src = 'images/plane_blue_banner.png'
-	plane.style.float = 'right'
-	plane.style.height = '175px';
-	plane.style.left = '-1200px';
-	plane.style.position = 'absolute'
-
-	//create logo image and set styling
-	let logo = document.createElement('img');
-	selectedLogo = logos[GetRandomNumber(0, (logos.length - 1))];
-	logo.src = selectedLogo;
-	logo.style.position = 'absolute'
-	logo.style.left = '-1065px'
-	logo.style.top = '25px'
-
-	//Insert images into container div	
-	div.appendChild(plane);
-	div.appendChild(logo);
-	//insert div into body
-    body.appendChild(div);
-    animatePlane(div);
+		//Insert images into container div	
+		div.appendChild(plane);
+		div.appendChild(logo);
+		//insert div into body
+		body.appendChild(div);
+		animatePlane(div);
+	}	
 }
 
 function animatePlane(elem) {
@@ -96,10 +98,14 @@ function animatePlane(elem) {
     let interval = setInterval(frame, 10);
 	let rateOfSpeed = 2;
     function frame() {
-        if (position >= (windowWidth + 2000)) {
+        if (position >= (windowWidth + 1200) && !gameOver) {
 			clearInterval(interval);
-		
-        } else {
+			planeExists = false;
+			createPlane();
+        } else if (gameOver){
+			clearInterval(interval);
+			planeExists = false;
+		} else {
             position += rateOfSpeed;
             elem.style.left = position + 'px';
         }
@@ -139,8 +145,8 @@ function updateScore(){
 
 function startGame(){
 	restartGame();
-	let timeout = 0;
 	createPlane();
+	let timeout = 0;
 	let loop = setInterval(function(){
 		timeout = Math.floor(Math.random() * 600 - 100);
 		if(!gameOver && num !== total){
@@ -154,21 +160,9 @@ function startGame(){
 			totalShadow.style.display = 'flex';
 			totalShadow.querySelector('.win').style.display = 'block';
 		}
-		
 	}, 800 + timeout);
 
-	let planeLoop = setInterval(function(){
-		timeout = Math.floor(Math.random() * 600 - 100);
-		if(!gameOver && num !== total){
-			createPlane();
-		} else if(num !== total) {
-			clearInterval(planeLoop);
-		} else {
-			clearInterval(planeLoop);
-		
-		}
-		
-	}, 10000 + timeout);
+	
 }
 
 function restartGame(){
@@ -181,7 +175,6 @@ function restartGame(){
 	for(let i = 0; i < forRemovingPlanes.length; i++){
 		forRemovingPlanes[i].remove();
 	}
-
 	gameOver = false;
 	num = 0;
 	updateScore();
