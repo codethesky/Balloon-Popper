@@ -41,8 +41,6 @@ body{
 }
 
 .plane{
-    width: 482px;
-    height: 175px;
     position: absolute;
     background-size: cover;
     background-position: center;
