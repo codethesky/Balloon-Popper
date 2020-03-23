@@ -15,6 +15,7 @@ let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 let body = document.body;
 let scores = document.querySelectorAll('.score');
+let totalPoints = document.querySelectorAll('.points');
 let num = 0;
 let total = 100;
 let currentBallon = 0;
@@ -23,6 +24,7 @@ let planeExists = false;
 let gameOver = false;
 let totalShadow = document.querySelector('.total-shadow');
 let startBtn = document.querySelector('.start-game-button');
+let points = 0;
 
 
 
@@ -120,10 +122,29 @@ function GetRandomNumber(min, max) {
 }
 
 function deleteBalloon(elem){
-		elem.remove();
-		num++;
-		updateScore();
-		playBallSound();
+	
+	elem.remove();
+	num++;
+	
+	switch (elem.className){
+		case "balloon balloon-violet":
+		points +=1;
+		break;
+		case "balloon balloon-green":
+		points +=2;
+		break;
+		case "balloon balloon-red":
+		points +=3;
+		break;
+		case "balloon balloon-yellow":
+		points +=4;
+		break;
+		case "balloon balloon-blue":
+		points +=5;
+		break;
+	}
+	updateScore();
+	playBallSound();
 }
 
 // Add score functionality and sound here
@@ -140,6 +161,9 @@ function playBallSound(){
 function updateScore(){
 	for(let i = 0; i < scores.length; i++){
 		scores[i].textContent = num;
+	}
+	for(let i = 0; i < totalPoints.length; i++){
+		totalPoints[i].textContent = points;
 	}
 }
 
@@ -177,6 +201,7 @@ function restartGame(){
 	}
 	gameOver = false;
 	num = 0;
+	points = 0;
 	updateScore();
 }
 
