@@ -25,6 +25,8 @@ let gameOver = false;
 let totalShadow = document.querySelector('.total-shadow');
 let startBtn = document.querySelector('.start-game-button');
 let points = 0;
+let balloonSpeed = 1;
+let balloonCounter = 0;
 
 
 
@@ -36,13 +38,45 @@ function createBalloon() {
 	rand = Math.floor(Math.random() * (windowWidth - 100));
 	div.style.left = rand + 'px';
 	div.dataset.number = currentBallon;
-    currentBallon++;
-
+	currentBallon++;
+	balloonCounter++;
+	switch (balloonCounter){
+		case 10:
+			balloonSpeed += .5;
+			break;
+		case 20:
+			balloonSpeed += .5;
+			break;
+		case 30:
+			balloonSpeed += .25;
+			break;
+		case 40:
+			balloonSpeed += .25;
+			break;
+		case 50:
+			balloonSpeed += .25;
+			break;
+		case 60:
+			balloonSpeed += .25;
+			break;
+		case 70:
+			balloonSpeed += .25;
+			break;
+		case 80:
+			balloonSpeed += .25;
+			break;
+		case 90:
+			balloonSpeed += .25;
+			break;		
+	}
+	
+	console.log("Ballon speed is:" + balloonSpeed);
+	console.log("Balloon counter is: " + balloonCounter);
 	body.appendChild(div);
-	animateBalloon(div);
+	animateBalloon(div, balloonSpeed);
 }
 
-function animateBalloon(elem){
+function animateBalloon(elem, speed){
 	let pos = 0;
 	let random = Math.floor(Math.random() * 6 - 3);
 	let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
@@ -52,8 +86,9 @@ function animateBalloon(elem){
 			clearInterval(interval);
 			gameOver = true;
 		} else{
-			pos++;
+			pos += speed;
 			elem.style.top = windowHeight - pos + 'px';
+			
 		}
 	}
 }
@@ -202,6 +237,8 @@ function restartGame(){
 	gameOver = false;
 	num = 0;
 	points = 0;
+	balloonSpeed = 1;
+	balloonCounter = 0;
 	updateScore();
 }
 
