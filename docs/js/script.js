@@ -14,6 +14,7 @@ let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 let body = document.body;
 let scores = document.querySelectorAll('.score');
+let totalPoints = document.querySelectorAll('.points');
 let num = 0;
 let total = 100;
 let currentBallon = 0;
@@ -22,6 +23,9 @@ let planeExists = false;
 let gameOver = false;
 let totalShadow = document.querySelector('.total-shadow');
 let startBtn = document.querySelector('.start-game-button');
+let points = 0;
+let balloonSpeed = 1;
+let balloonCounter = 0;
 
 
 
@@ -33,13 +37,45 @@ function createBalloon() {
 	rand = Math.floor(Math.random() * (windowWidth - 100));
 	div.style.left = rand + 'px';
 	div.dataset.number = currentBallon;
-    currentBallon++;
-
+	currentBallon++;
+	balloonCounter++;
+	switch (balloonCounter){
+		case 10:
+			balloonSpeed += .5;
+			break;
+		case 20:
+			balloonSpeed += .5;
+			break;
+		case 30:
+			balloonSpeed += .25;
+			break;
+		case 40:
+			balloonSpeed += .25;
+			break;
+		case 50:
+			balloonSpeed += .25;
+			break;
+		case 60:
+			balloonSpeed += .25;
+			break;
+		case 70:
+			balloonSpeed += .25;
+			break;
+		case 80:
+			balloonSpeed += .25;
+			break;
+		case 90:
+			balloonSpeed += .25;
+			break;		
+	}
+	
+	console.log("Ballon speed is:" + balloonSpeed);
+	console.log("Balloon counter is: " + balloonCounter);
 	body.appendChild(div);
-	animateBalloon(div);
+	animateBalloon(div, balloonSpeed);
 }
 
-function animateBalloon(elem){
+function animateBalloon(elem, speed){
 	let pos = 0;
 	let random = Math.floor(Math.random() * 6 - 3);
 	let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
@@ -49,8 +85,9 @@ function animateBalloon(elem){
 			clearInterval(interval);
 			gameOver = true;
 		} else{
-			pos++;
+			pos += speed;
 			elem.style.top = windowHeight - pos + 'px';
+			
 		}
 	}
 }
@@ -119,10 +156,29 @@ function GetRandomNumber(min, max) {
 }
 
 function deleteBalloon(elem){
-		elem.remove();
-		num++;
-		updateScore();
-		playBallSound();
+	
+	elem.remove();
+	num++;
+	
+	switch (elem.className){
+		case "balloon balloon-violet":
+		points +=1;
+		break;
+		case "balloon balloon-green":
+		points +=2;
+		break;
+		case "balloon balloon-red":
+		points +=3;
+		break;
+		case "balloon balloon-yellow":
+		points +=4;
+		break;
+		case "balloon balloon-blue":
+		points +=5;
+		break;
+	}
+	updateScore();
+	playBallSound();
 }
 
 // Add score functionality and sound here
@@ -139,6 +195,9 @@ function playBallSound(){
 function updateScore(){
 	for(let i = 0; i < scores.length; i++){
 		scores[i].textContent = num;
+	}
+	for(let i = 0; i < totalPoints.length; i++){
+		totalPoints[i].textContent = points;
 	}
 }
 
@@ -176,6 +235,9 @@ function restartGame(){
 	}
 	gameOver = false;
 	num = 0;
+	points = 0;
+	balloonSpeed = 1;
+	balloonCounter = 0;
 	updateScore();
 }
 
