@@ -70,8 +70,6 @@ function createBalloon() {
 			break;		
 	}
 	
-	console.log("Ballon speed is:" + balloonSpeed);
-	console.log("Balloon counter is: " + balloonCounter);
 	body.appendChild(div);
 	animateBalloon(div, balloonSpeed);
 }
@@ -241,6 +239,11 @@ function restartGame(){
 	balloonCounter = 0;
 	updateScore();
 }
+
+window.addEventListener('resize', function(event){
+	windowWidth = window.innerWidth;
+	windowHeight = window.innerHeight;
+})
 
 document.addEventListener('click', function(event){
     if (event.target.classList.contains('balloon')) {
