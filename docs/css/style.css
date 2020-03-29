@@ -34,21 +34,18 @@ body{
 	height: 200px;
 	top: 100vh;
 	position: absolute;
-
+	z-index: 1;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
 .plane{
-    width: 100px;
-    height: 200px;
-    top: 100vh;
     position: absolute;
-
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
+	z-index: 0;
 }
 
 .balloon-red{
@@ -68,7 +65,7 @@ body{
 }
 
 .plane-blue{
-    background-image: url(../images/plane.png);
+	background-image: url(../images/plane.png);
 }
 
 .total-shadow{
@@ -100,15 +97,29 @@ body{
 
 .score-block{
 	background: #efefef;
-	width: 300px;
-	height: 80px;
-	display: flex;
+	width: 600px;
+	height: 100px;
 	justify-content: center;
 	align-items: center;
 	border-radius: 20px 20px 0 0;
 	position: absolute;
 	bottom: 0;
-	left: calc(50% - 150px);
+	left: calc(50% - 300px);
+	padding: 10px 0;
+}
+.score-block p {
+	text-align: center;
+}
+.score-block p {
+	color: blue;
+}
+.point-row p {
+	color: #ef9fad;
+	font-weight: bold;
+}
+.score-row {
+	width: 100%;
+	float: left;
 }
 .start-game-window {
 	width: 100vw;

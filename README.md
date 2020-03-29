@@ -6,7 +6,7 @@ Balloons start free falling from the top of the screen in all directions. The pl
 
 Balloon Popper is built with HTML5, CSS3 and Javascript.
 
-You can try out this game [here](https://richardlara67.github.io/balloon-popper/)
+You can try out this game [here](https://richardlara67.github.io/Balloon-Popper/)
 
 ## Installation
 
