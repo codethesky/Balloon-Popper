@@ -63,6 +63,9 @@ body{
 .balloon-green{
 	background-image: url(../images/balloon-green.png);
 }
+.balloon-black{
+	background-image: url(../images/balloon-black.png);
+}
 
 .plane-blue{
 	background-image: url(../images/plane.png);

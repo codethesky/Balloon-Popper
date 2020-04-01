@@ -6,8 +6,8 @@ To do:
 	**function animatePlane()
 */
 
-
-let colors = ['yellow', 'red', 'blue', 'violet', 'green'];
+//Colors array is seeded so that both black and yellow has a 1/10 chance to appear.  Yellow is worth +5 points and black is worth -5 points.
+let colors = ['yellow', 'red', 'blue', 'violet', 'green', 'black', 'red', 'blue', 'violet', 'green'];
 //Explicitly name any logo image file names in Logos[] for them to be displayed in app.  150px x 150px is optimal size.
 let logos = ['images/logo1.png','images/logo2.png','images/logo3.png'];
 let windowWidth = window.innerWidth;
@@ -26,7 +26,6 @@ let startBtn = document.querySelector('.start-game-button');
 let points = 0;
 let balloonSpeed = 1;
 let balloonCounter = 0;
-
 
 
 function createBalloon() {
@@ -59,13 +58,13 @@ function createBalloon() {
 			balloonSpeed += .25;
 			break;
 		case 70:
-			balloonSpeed += .25;
+			balloonSpeed += .1;
 			break;
 		case 80:
-			balloonSpeed += .25;
+			balloonSpeed += .1;
 			break;
 		case 90:
-			balloonSpeed += .25;
+			balloonSpeed += .1;
 			break;		
 	}
 	
@@ -77,11 +76,15 @@ function animateBalloon(elem, speed){
 	let pos = 0;
 	let random = Math.floor(Math.random() * 6 - 3);
 	let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
-
+	x = elem.className;
+	console.log(x);
 	function frame(){
-		if(pos >= (windowHeight + 200) && (document.querySelector('[data-number="'+elem.dataset.number+'"]') !== null)) {
+		if(pos >= (windowHeight + 200) && (document.querySelector('[data-number="'+elem.dataset.number+'"]')) !== null)
+		{
 			clearInterval(interval);
-			gameOver = true;
+			if (elem.className !== 'balloon balloon-black') {
+				gameOver = true;
+			}
 		} else{
 			pos += speed;
 			elem.style.top = windowHeight - pos + 'px';
@@ -163,16 +166,23 @@ function deleteBalloon(elem){
 		points +=1;
 		break;
 		case "balloon balloon-green":
-		points +=2;
+		points +=1;
 		break;
 		case "balloon balloon-red":
-		points +=3;
+		points +=1;
 		break;
 		case "balloon balloon-yellow":
-		points +=4;
+		points +=5;
 		break;
 		case "balloon balloon-blue":
-		points +=5;
+		points +=1;
+		break;
+		case "balloon balloon-black":
+		if (points > 5) {
+			points -= 5;
+		} else {
+			points = 0;
+		}
 		break;
 	}
 	updateScore();
@@ -226,7 +236,7 @@ function restartGame(){
 	for(let i = 0; i < forRemoving.length; i++){
 		forRemoving[i].remove();
 	}
-
+	
 	let forRemovingPlanes = document.querySelectorAll('.plane');
 	for(let i = 0; i < forRemovingPlanes.length; i++){
 		forRemovingPlanes[i].remove();
