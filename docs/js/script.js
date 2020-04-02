@@ -6,8 +6,8 @@ To do:
 	**function animatePlane()
 */
 
-
-let colors = ['yellow', 'red', 'blue', 'violet', 'green'];
+//Colors array is seeded so that both black and yellow has a 1/10 chance to appear.  Yellow is worth +5 points and black is worth -5 points.
+let colors = ['yellow', 'red', 'blue', 'violet', 'green', 'black', 'red', 'blue', 'violet', 'green'];
 //Explicitly name any logo image file names in Logos[] for them to be displayed in app.  150px x 150px is optimal size.
 let logos = ['images/logo1.png','images/logo2.png','images/logo3.png'];
 let windowWidth = window.innerWidth;
@@ -26,7 +26,7 @@ let startBtn = document.querySelector('.start-game-button');
 let points = 0;
 let balloonSpeed = 1;
 let balloonCounter = 0;
-
+let stars = 'images/1-star.png';
 
 
 function createBalloon() {
@@ -59,18 +59,16 @@ function createBalloon() {
 			balloonSpeed += .25;
 			break;
 		case 70:
-			balloonSpeed += .25;
+			balloonSpeed += .1;
 			break;
 		case 80:
-			balloonSpeed += .25;
+			balloonSpeed += .1;
 			break;
 		case 90:
-			balloonSpeed += .25;
+			balloonSpeed += .1;
 			break;		
 	}
 	
-	console.log("Ballon speed is:" + balloonSpeed);
-	console.log("Balloon counter is: " + balloonCounter);
 	body.appendChild(div);
 	animateBalloon(div, balloonSpeed);
 }
@@ -79,11 +77,14 @@ function animateBalloon(elem, speed){
 	let pos = 0;
 	let random = Math.floor(Math.random() * 6 - 3);
 	let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
-
+	x = elem.className;
 	function frame(){
-		if(pos >= (windowHeight + 200) && (document.querySelector('[data-number="'+elem.dataset.number+'"]') !== null)) {
+		if(pos >= (windowHeight + 200) && (document.querySelector('[data-number="'+elem.dataset.number+'"]')) !== null)
+		{
 			clearInterval(interval);
-			gameOver = true;
+			if (elem.className !== 'balloon balloon-black') {
+				gameOver = true;
+			}
 		} else{
 			pos += speed;
 			elem.style.top = windowHeight - pos + 'px';
@@ -165,16 +166,23 @@ function deleteBalloon(elem){
 		points +=1;
 		break;
 		case "balloon balloon-green":
-		points +=2;
+		points +=1;
 		break;
 		case "balloon balloon-red":
-		points +=3;
+		points +=1;
 		break;
 		case "balloon balloon-yellow":
-		points +=4;
+		points +=5;
 		break;
 		case "balloon balloon-blue":
-		points +=5;
+		points +=1;
+		break;
+		case "balloon balloon-black":
+		if (points > 5) {
+			points -= 5;
+		} else {
+			points = 0;
+		}
 		break;
 	}
 	updateScore();
@@ -201,6 +209,33 @@ function updateScore(){
 	}
 }
 
+function updateStars(){
+	if (points < 70) {
+		stars = 'images/1-star.png';
+	} else if (points <= 80) {
+		stars = 'images/2-star.png';	
+	} else if (points <= 90) {
+		stars = 'images/3-star.png';
+	} else if (points <= 100) {
+		stars = 'images/4-star.png';
+	} else {
+		stars = 'images/5-star.png';
+	}
+	
+	var image = document.createElement("img");
+	image.src = stars;
+	image.style.height = '100px';
+	image.id = "star";
+	document.getElementById("win-starsEarned").appendChild(image);
+	document.getElementById("lose-starsEarned").appendChild(image);
+}
+function removeStars(){
+	var removeWinStars = document.getElementById("star");
+	var removeLoseStars = document.getElementById("star");
+	removeWinStars.remove();
+	removeLoseStars.remove();
+}
+
 function startGame(){
 	restartGame();
 	createPlane();
@@ -213,10 +248,12 @@ function startGame(){
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
 			totalShadow.querySelector('.lose').style.display = 'block';
+			updateStars();
 		} else {
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
 			totalShadow.querySelector('.win').style.display = 'block';
+			updateStars();
 		}
 	}, 800 + timeout);
 
@@ -228,7 +265,7 @@ function restartGame(){
 	for(let i = 0; i < forRemoving.length; i++){
 		forRemoving[i].remove();
 	}
-
+	
 	let forRemovingPlanes = document.querySelectorAll('.plane');
 	for(let i = 0; i < forRemovingPlanes.length; i++){
 		forRemovingPlanes[i].remove();
@@ -239,7 +276,13 @@ function restartGame(){
 	balloonSpeed = 1;
 	balloonCounter = 0;
 	updateScore();
+	
 }
+
+window.addEventListener('resize', function(event){
+	windowWidth = window.innerWidth;
+	windowHeight = window.innerHeight;
+})
 
 document.addEventListener('click', function(event){
     if (event.target.classList.contains('balloon')) {
@@ -251,12 +294,13 @@ document.querySelector('.restart').addEventListener('click', function(){
 	totalShadow.style.display = 'none';
 	totalShadow.querySelector('.win').style.display = 'none';
 	totalShadow.querySelector('.lose').style.display = 'none';
-
+	removeStars();
 	startGame();
 });
 
 document.querySelector('.cencel').addEventListener('click', function(){
-    totalShadow.style.display = 'none';
+	totalShadow.style.display = 'none';
+	removeStars();
     restartGame();
     document.querySelector('.bg-music').pause();
     document.querySelector('.start-game-window').style.display = 'flex';
