@@ -26,6 +26,7 @@ let startBtn = document.querySelector('.start-game-button');
 let points = 0;
 let balloonSpeed = 1;
 let balloonCounter = 0;
+let stars = 'images/1-star.png';
 
 
 function createBalloon() {
@@ -77,7 +78,6 @@ function animateBalloon(elem, speed){
 	let random = Math.floor(Math.random() * 6 - 3);
 	let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
 	x = elem.className;
-	console.log(x);
 	function frame(){
 		if(pos >= (windowHeight + 200) && (document.querySelector('[data-number="'+elem.dataset.number+'"]')) !== null)
 		{
@@ -209,6 +209,33 @@ function updateScore(){
 	}
 }
 
+function updateStars(){
+	if (points < 70) {
+		stars = 'images/1-star.png';
+	} else if (points <= 80) {
+		stars = 'images/2-star.png';	
+	} else if (points <= 90) {
+		stars = 'images/3-star.png';
+	} else if (points <= 100) {
+		stars = 'images/4-star.png';
+	} else {
+		stars = 'images/5-star.png';
+	}
+	
+	var image = document.createElement("img");
+	image.src = stars;
+	image.style.height = '100px';
+	image.id = "star";
+	document.getElementById("win-starsEarned").appendChild(image);
+	document.getElementById("lose-starsEarned").appendChild(image);
+}
+function removeStars(){
+	var removeWinStars = document.getElementById("star");
+	var removeLoseStars = document.getElementById("star");
+	removeWinStars.remove();
+	removeLoseStars.remove();
+}
+
 function startGame(){
 	restartGame();
 	createPlane();
@@ -221,10 +248,12 @@ function startGame(){
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
 			totalShadow.querySelector('.lose').style.display = 'block';
+			updateStars();
 		} else {
 			clearInterval(loop);
 			totalShadow.style.display = 'flex';
 			totalShadow.querySelector('.win').style.display = 'block';
+			updateStars();
 		}
 	}, 800 + timeout);
 
@@ -247,6 +276,7 @@ function restartGame(){
 	balloonSpeed = 1;
 	balloonCounter = 0;
 	updateScore();
+	
 }
 
 window.addEventListener('resize', function(event){
@@ -264,12 +294,13 @@ document.querySelector('.restart').addEventListener('click', function(){
 	totalShadow.style.display = 'none';
 	totalShadow.querySelector('.win').style.display = 'none';
 	totalShadow.querySelector('.lose').style.display = 'none';
-
+	removeStars();
 	startGame();
 });
 
 document.querySelector('.cencel').addEventListener('click', function(){
-    totalShadow.style.display = 'none';
+	totalShadow.style.display = 'none';
+	removeStars();
     restartGame();
     document.querySelector('.bg-music').pause();
     document.querySelector('.start-game-window').style.display = 'flex';
