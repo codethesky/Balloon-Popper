@@ -77,6 +77,7 @@ function animateBalloon(elem, speed){
 	let pos = 0;
 	let random = Math.floor(Math.random() * 6 - 3);
 	let interval = setInterval(frame, 12 - Math.floor(num / 10) + random);
+	
 	x = elem.className;
 	function frame(){
 		if(pos >= (windowHeight + 200) && (document.querySelector('[data-number="'+elem.dataset.number+'"]')) !== null)
@@ -209,7 +210,7 @@ function updateScore(){
 	}
 }
 
-function updateStars(){
+function updateStars(){ 
 	if (points < 70) {
 		stars = 'images/1-star.png';
 	} else if (points <= 80) {
